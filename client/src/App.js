@@ -4,9 +4,10 @@ import Sidebar from './components/Sidebar';
 import ReportModal from './components/ReportModal';
 
 // URL da nossa API que está rodando em localhost:3001
+// É crucial que o servidor da API esteja rodando para esta URL funcionar.
 const API_URL = 'http://localhost:3001/api';
 
-// Configuração das colunas para cada tipo de relatório
+// Configuração das colunas e títulos para cada tipo de relatório
 const reportConfig = {
   clientes: {
     title: 'Relatório de Clientes',
@@ -48,19 +49,22 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Esta função é chamada quando um item do menu é clicado no Sidebar
   const handleMenuClick = async (reportType) => {
     setIsLoading(true);
     setError(null);
+    setReportData(null); // Limpa dados antigos
     setIsModalOpen(true);
     setCurrentReport(reportType);
 
     try {
+      // Faz a requisição para a API
       const response = await fetch(`${API_URL}${reportConfig[reportType].endpoint}`);
       if (!response.ok) {
-        throw new Error('Erro ao buscar dados da API');
+        throw new Error('Erro ao buscar dados da API. O servidor backend está rodando?');
       }
       const data = await response.json();
-      setReportData(data);
+      setReportData(data); // Armazena os dados recebidos no estado
     } catch (err) {
       setError(err.message);
       setReportData([]);
@@ -69,10 +73,12 @@ function App() {
     }
   };
 
+  // Função para fechar o modal
   const closeModal = () => {
     setIsModalOpen(false);
     setReportData(null);
     setCurrentReport(null);
+    setError(null);
   };
 
   return (
@@ -82,6 +88,7 @@ function App() {
         <h1>Sistema de Gerenciamento</h1>
         <p>Clique em uma opção no menu lateral para gerar um relatório.</p>
 
+        {/* O modal só é exibido se isModalOpen for true */}
         {isModalOpen && (
           <ReportModal
             title={reportConfig[currentReport]?.title || 'Carregando...'}
