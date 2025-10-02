@@ -3,9 +3,19 @@ import './App.css';
 import Sidebar from './components/Sidebar';
 import ReportModal from './components/ReportModal';
 
-// URL da nossa API que está rodando em localhost:3001
-// É crucial que o servidor da API esteja rodando para esta URL funcionar.
-const API_URL = 'http://localhost:3001/api';
+// --- INÍCIO DA CORREÇÃO PARA O CODESPACES ---
+// Detecta se estamos no Codespaces e monta a URL da API dinamicamente.
+// Se não estiver no Codespaces, ele usará o padrão 'localhost'.
+const isCodespaces = window.location.hostname.includes('github.dev');
+
+const API_URL = isCodespaces
+  ? `https://` + window.location.hostname.replace('3000', '3001') + '/api'
+  : 'http://localhost:3001/api';
+
+// Linha útil para verificar no console do navegador (F12) qual URL está sendo usada.
+console.log("API URL sendo usada:", API_URL);
+// --- FIM DA CORREÇÃO ---
+
 
 // Configuração das colunas e títulos para cada tipo de relatório
 const reportConfig = {
@@ -58,7 +68,7 @@ function App() {
     setCurrentReport(reportType);
 
     try {
-      // Faz a requisição para a API
+      // Faz a requisição para a API usando a URL correta
       const response = await fetch(`${API_URL}${reportConfig[reportType].endpoint}`);
       if (!response.ok) {
         throw new Error('Erro ao buscar dados da API. O servidor backend está rodando?');
