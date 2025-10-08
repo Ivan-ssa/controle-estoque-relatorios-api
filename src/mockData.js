@@ -3,7 +3,7 @@
 // --- CLIENTES ---
 // Lista ajustada para o novo foco de produtos (restaurantes, eventos, etc.)
 export const clientes = [
-  { id: 1, nome: 'Alimentos Frescos S.A.', cnpj: '11.111.111/0001-11', email: 'compras@frescos.com' },
+  { id: 1, nome: 'Alimentos Frescos S.A.ww', cnpj: '11.111.111/0001-11', email: 'compras@frescos.com' },
   { id: 2, nome: 'Rede de Fast Food Veloz', cnpj: '22.222.222/0001-22', email: 'suprimentos@fastfoodveloz.com' },
   { id: 3, nome: 'Distribuidora Log Express', cnpj: '55.555.555/0001-55', email: 'pedidos@logexpress.com' },
   { id: 4, nome: 'Laticínios Sabor do Campo', cnpj: '66.666.666/0001-66', email: 'contato@sabordocampo.com' },
